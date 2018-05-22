@@ -1,14 +1,18 @@
 class Game {
 
-    constructor(){
-        console.log("new game created!")
+    private player: Player
 
-        let c = new Car()
-        
-        c.drive()
-        c.update()
+    constructor() {
 
-        console.log(c.speed)
+        this.player = new Player()
+
+        this.gameLoop()
+    }
+
+    private gameLoop(){
+
+        this.player.update()
+        requestAnimationFrame(()=>this.gameLoop())
     }
 }
 
