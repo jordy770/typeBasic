@@ -46,14 +46,18 @@ window.addEventListener("load", function () { return new Game(); });
 var Player = (function () {
     function Player() {
         var _this = this;
-        this.downSpeed = 0;
+        this.rightSpeed = 0;
+        this.leftSpeed = 0;
         this.upSpeed = 0;
+        this.downSpeed = 0;
         this.div = document.createElement("player");
         document.body.appendChild(this.div);
         this.leftkey = 65;
         this.rightkey = 68;
-        this.x = 0;
-        this.y = 1080 - 200;
+        this.upkey = 87;
+        this.downkey = 83;
+        this.x = 100;
+        this.y = 100;
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
         window.addEventListener("keyup", function (e) { return _this.onKeyUp(e); });
     }
@@ -63,27 +67,42 @@ var Player = (function () {
     Player.prototype.onKeyDown = function (e) {
         switch (e.keyCode) {
             case this.leftkey:
-                this.upSpeed = 5;
+                this.leftSpeed = 5;
                 break;
             case this.rightkey:
-                this.downSpeed = 5;
+                this.rightSpeed = 5;
+                break;
+            case this.upkey:
+                this.upSpeed = 25;
+                break;
+            case this.downkey:
+                this.downSpeed = 10;
                 break;
         }
     };
     Player.prototype.onKeyUp = function (e) {
         switch (e.keyCode) {
             case this.leftkey:
-                this.upSpeed = 0;
+                this.leftSpeed = 0;
                 break;
             case this.rightkey:
-                this.downSpeed = 0;
+                this.rightSpeed = 0;
+                break;
+            case this.upkey:
+                this.upSpeed = 0;
+                break;
+            case this.downkey:
+                this.downSpeed = 10;
                 break;
         }
     };
     Player.prototype.update = function () {
-        var newX = this.x - this.upSpeed + this.downSpeed;
+        var newX = this.x - this.leftSpeed + this.rightSpeed;
+        var newY = this.y - this.upSpeed + this.downSpeed;
         if (newX > 0 && newX + 100 < window.innerWidth)
             this.x = newX;
+        if (newY > 0 && newY + 200 < window.innerHeight)
+            this.y = newY;
         this.div.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
     };
     return Player;
